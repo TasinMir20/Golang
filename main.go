@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v3"
@@ -35,8 +36,14 @@ func main() {
 		}
 
 		// Recursive Fibonacci calculation (intentionally CPU intensive)
+		callCount := 0
 		var fib func(int) int
 		fib = func(n int) int {
+			callCount++
+			if callCount%1000000 == 0 { // Log every millionth call
+				fmt.Printf("⚡ Made %d million recursive calls...\n", callCount/1000000)
+			}
+
 			if n <= 1 {
 				return n
 			}
