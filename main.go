@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"sync/atomic"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -11,10 +12,16 @@ func main() {
 	// Create a new Fiber instance
 	app := fiber.New()
 
-	// Define a simple GET route
+	var i int32 = 0
 	app.Get("/", func(c fiber.Ctx) error {
+
+		atomic.AddInt32(&i, 1)
+
+		fmt.Println(i)
+
 		return c.JSON(fiber.Map{
-			"message": "Welcome to the Fiber API!",
+			"message": "Hello from Go",
+			"request": i,
 		})
 	})
 
