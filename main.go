@@ -46,6 +46,8 @@ func main() {
 			})
 		}
 
+		startTime := time.Now()
+
 		// Recursive Fibonacci calculation (intentionally CPU intensive)
 		callCount := 0
 		var fib func(int) int
@@ -62,9 +64,16 @@ func main() {
 		}
 
 		result := fib(n)
+		duration := time.Since(startTime)
+		minutes := int(duration.Minutes())
+		seconds := int(duration.Seconds()) % 60
+		milliseconds := int(duration.Milliseconds()) % 1000
+		timeTook := fmt.Sprintf("%d minutes %d seconds %d milliseconds", minutes, seconds, milliseconds)
+
 		return c.JSON(fiber.Map{
-			"number": n,
-			"result": result,
+			"number":   n,
+			"result":   result,
+			"timeTook": timeTook,
 		})
 	})
 
