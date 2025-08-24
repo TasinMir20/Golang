@@ -1,0 +1,19 @@
+/tmp
+
+# Compiled binaries and object files
+*.exe
+*.o
+
+# IDEs and editors
+.idea/
+.DS_Store
+
+# Go modules cache
+/pkg/
+
+# Test cache
+/testdata/
+
+# Go build cache
+/go-build/
+
