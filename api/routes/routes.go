@@ -1,10 +1,26 @@
 package routes
 
 import (
+	"fmt"
 	authRoutes "new-project-go/api/routes/auth"
 
 	"github.com/gofiber/fiber/v3"
 )
+
+var middleware = func(c fiber.Ctx) error {
+	c.Set("X-Middleware", "Active")
+	fmt.Println("Middleware")
+	token := c.Get("Authorization")
+
+	if token == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Authentication required",
+		})
+	} else {
+		return c.Next()
+	}
+
+}
 
 func SetupRoutes(route fiber.Router) {
 	route.All("/", func(c fiber.Ctx) error {
@@ -13,7 +29,7 @@ func SetupRoutes(route fiber.Router) {
 		})
 	})
 
-	auth := route.Group("/auth")
+	auth := route.Group("/auth", middleware)
 	authRoutes.SetupAuthRoutes(auth)
 
 }
