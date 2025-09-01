@@ -46,11 +46,3 @@ func (u *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	return err == nil
 }
-
-type UserSession struct {
-	ID          primitive.ObjectID `bson:"_id,omitempty"`
-	User        primitive.ObjectID `bson:"user"`
-	SessionName string             `bson:"sessionName"`
-	UUID        string             `bson:"uuid"`
-	ExpireDate  time.Time          `bson:"expireDate"`
-}
