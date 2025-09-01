@@ -17,6 +17,7 @@ func ConnectDB() {
 	var err error
 
 	DB_URI := os.Getenv("DB_URI")
+	DB_NAME := os.Getenv("DB_NAME")
 	// Connect to MongoDB
 	Client, err = qmgo.NewClient(context.Background(), &qmgo.Config{
 		Uri: DB_URI,
@@ -26,7 +27,7 @@ func ConnectDB() {
 	}
 
 	// Get database and collections
-	Database = Client.Database("go")
+	Database = Client.Database(DB_NAME)
 
 	log.Println("✅ Database connection successful.")
 }
