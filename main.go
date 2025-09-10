@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/gofiber/fiber/v3/middleware/static"
 
 	"github.com/joho/godotenv"
@@ -23,6 +24,13 @@ func main() {
 	defer config.DisconnectDB()
 
 	app := fiber.New()
+
+	// logging middleware - logs every request to console
+	app.Use(logger.New(logger.Config{
+		Format:     "[${time}] ${status} - ${method} ${path} - ${ip} - ${latency}\n",
+		TimeFormat: "2006-01-02 15:04:05",
+		TimeZone:   "Local",
+	}))
 
 	app.Get("/static/*", static.New("./public"))
 
